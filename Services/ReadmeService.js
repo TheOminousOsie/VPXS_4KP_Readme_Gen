@@ -212,7 +212,7 @@ class ReadmeService {
                 .replace(/{hasROM}/g, config.romChecksum ? '✅' : '❌')
                 .replace(/{hasPup}/g, config.pupChecksum ? '✅' : '❌')
                 .replace(/{fps}/g, config.fps.toString())
-                .replace(/{testers}/g, config.testers.map(x => `  - ${x === "OminousOsie" ? "Ominous Osie 🌸" : x}`).join('\n'))
+                .replace(/{testers}/g, config.testers.map(x => `${x === "OminousOsie" ? "Ominous Osie 🌸" : x}`).join(', '))
                 .replace(/{tagline}/g, config.tagline)
                 .replace(/{mainNotes}/g, config.mainNotes || '')
                 .replace(/{tableNotes}/g, config.tableNotes || '')

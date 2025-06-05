@@ -10,6 +10,7 @@
 | **VPX** | [{tableWebsite}]({tableLink}) | {tableVersion} | {tableAuthor} |
 | **B2S** | [{b2sWebsite}]({b2sLink}) | {b2sVersion} | {b2sAuthor} |
 | **ROM** | [{romWebsite}]({romLink}) | {romVersion} | {romAuthor} |
+| **SERUM** | [{coloredRomWebsite}]({coloredRomLink}) | {coloredRomVersion} | {coloredRomAuthor} |
 | **PUPPACK** | [{pupPackWebsite}]({pupPackLink}) | {pupPackVersion} | {pupPackAuthor} |
 
 **Tested by:** {testers}
