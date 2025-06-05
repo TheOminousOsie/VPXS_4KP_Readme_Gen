@@ -42,6 +42,9 @@ class ReadmeService {
             const manufacturer = table.manufacturer;
             const year = table.year;
 
+            // Sanitize VPS ID for filenames
+            const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
+
             // Load README template
             const response = await fetch('https://theominousosie.github.io/VPXS_4KP_Readme_Gen/Content/wiz_README.md');
             let newReadme = await response.text();
@@ -81,7 +84,8 @@ class ReadmeService {
                 previewImage: {
                     url: previewImageUrl,
                     name: previewImageName
-                }
+                },
+                sanitizedId: sanitizedId
             };
         } catch (error) {
             console.error('Error generating README:', error);
@@ -190,6 +194,9 @@ class ReadmeService {
             const name = config.tableNameOverride || this.convertTitle(table.name);
             const manufacturer = table.manufacturer;
             const year = table.year;
+
+            // Sanitize VPS ID for filenames
+            const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
 
             // Load README template
             const response = await fetch('https://theominousosie.github.io/VPXS_4KP_Readme_Gen/Content/man_README.md');
@@ -315,7 +322,8 @@ class ReadmeService {
                 previewImage: {
                     url: previewImageUrl,
                     name: previewImageName
-                }
+                },
+                sanitizedId: sanitizedId
             };
         } catch (error) {
             console.error('Error generating README:', error);

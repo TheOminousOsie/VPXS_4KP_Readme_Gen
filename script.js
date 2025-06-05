@@ -106,8 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (result.success) {
                 // Create and download the README file
-                const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
-                downloadFile(result.readme, `${sanitizedId}_README.md`);
+                downloadFile(result.readme, `${result.sanitizedId}_README.md`);
                 
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
@@ -141,8 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (result.success) {
                 // Create and download the README file
-                const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
-                downloadFile(result.readme, `${sanitizedId}_README.md`);
+                downloadFile(result.readme, `${result.sanitizedId}_README.md`);
                 
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
