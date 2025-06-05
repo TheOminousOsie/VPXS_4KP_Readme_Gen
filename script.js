@@ -111,9 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
                     downloadImage(result.previewImage.url, result.previewImage.name);
-                    finishedLabel.value = `${result.sanitizedId}_README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
+                    finishedLabel.value = `'${result.sanitizedId}_README.md' created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
                 } else {
-                    finishedLabel.value = `${result.sanitizedId}_README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image not created, don't forget to edit the image url manually yourself!`;
+                    finishedLabel.value = `'${result.sanitizedId}_README.md' created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image not created, don't forget to edit the image url manually yourself!`;
                 }
             } else {
                 finishedLabel.value = result.message;
@@ -145,9 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
                     downloadImage(result.previewImage.url, result.previewImage.name);
-                    finishedLabel.value = `${result.sanitizedId}_README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
+                    finishedLabel.value = `'${result.sanitizedId}_README.md' created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
                 } else {
-                    finishedLabel.value = `${result.sanitizedId}_README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image not created, don't forget to edit the image url manually yourself!`;
+                    finishedLabel.value = `'${result.sanitizedId}_README.md' created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\n\nPreview image not created, don't forget to edit the image url manually yourself!`;
                 }
             } else {
                 finishedLabel.value = result.message;
