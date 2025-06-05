@@ -117,7 +117,7 @@ class ReadmeService {
             return { readme: newReadme, success: true };
         } else {
             let file = null;
-            for (const token of ['table', 'b2s', 'rom', 'pupPack']) {
+            for (const token of ['table', 'b2s', 'rom', 'pupPack', 'altColor']) {
                 if (file) break;
 
                 const fileArray = table[`${token}Files`];
@@ -268,11 +268,11 @@ class ReadmeService {
 
             // Handle colored ROM
             if (config.coloredROMChecksum && !config.coloredROMBundled) {
-				const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'altColor', config.coloredROMUrlOverride);
-				if (coloredRomResult.success) {
-					newReadme = coloredRomResult.readme;
-				}
-			}else if (config.coloredROMBundled) {
+                const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'altColor', config.coloredROMUrlOverride);
+                if (coloredRomResult.success) {
+                    newReadme = coloredRomResult.readme;
+                }
+            } else if (config.coloredROMBundled) {
                 const romResult = this.updateUrlFields(newReadme, table, config.vpxVPSId, 'altColor');
                 if (romResult.success) {
                     newReadme = romResult.readme;
