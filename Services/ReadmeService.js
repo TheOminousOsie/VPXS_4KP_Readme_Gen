@@ -79,7 +79,7 @@ class ReadmeService {
     async generateManualReadme(ymlContent, includePreview) {
         try {
             // Parse YAML content
-            const config = new WizardYml(window.YAML.parse(ymlContent));
+            const config = new WizardYml(YAML.parse(ymlContent));
 
             // Initialize VPS service
             const vpsService = new VpsTableService(this.vpsUrl);
