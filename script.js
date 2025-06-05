@@ -1,4 +1,5 @@
 import ReadmeService from './Services/ReadmeService.js';
+import WizardYml from './Models/WizardYml.js';
 
 // Function to handle file selection
 document.addEventListener('DOMContentLoaded', () => {
