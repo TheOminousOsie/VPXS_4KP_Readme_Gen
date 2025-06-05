@@ -29,7 +29,7 @@ class ReadmeService {
             const year = table.year;
 
             // Load README template
-            const response = await fetch('/Content/wiz_README.md');
+            const response = await fetch('https://theominousosie.github.io/Content/wiz_README.md');
             let newReadme = await response.text();
 
             // Replace placeholders
@@ -98,7 +98,7 @@ class ReadmeService {
             const year = table.year;
 
             // Load README template
-            const response = await fetch('/Content/man_README.md');
+            const response = await fetch('https://theominousosie.github.io/Content/man_README.md');
             let newReadme = await response.text();
 
             // Replace placeholders
