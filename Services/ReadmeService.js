@@ -267,9 +267,22 @@ class ReadmeService {
             }
 
             // Handle colored ROM
-            const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'coloredRom', config.coloredROMUrlOverride);
-            if (coloredRomResult.success) {
-                newReadme = coloredRomResult.readme;
+            if (config.coloredROMChecksum && !config.coloredROMBundled) {
+				const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'altColor', config.coloredROMUrlOverride);
+				if (coloredRomResult.success) {
+					newReadme = coloredRomResult.readme;
+				}
+			}else if (config.coloredROMBundled) {
+                const romResult = this.updateUrlFields(newReadme, table, config.vpxVPSId, 'altColor');
+                if (romResult.success) {
+                    newReadme = romResult.readme;
+                }
+            } else {
+                newReadme = newReadme
+                    .replace(/{altColorWebsite}/g, 'N/A')
+                    .replace(/{altColorLink}/g, 'N/A')
+                    .replace(/{altColorVersion}/g, 'N/A')
+                    .replace(/{altColorAuthor}/g, 'N/A');
             }
 
             // Handle PUP
