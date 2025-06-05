@@ -163,7 +163,7 @@ class ReadmeService {
                 if (!authorsList) {
                     newReadme = newReadme.replace(`{${tokenPrefix}Author}`, 'N/A');
                 } else {
-                    newReadme = newReadme.replace(`{${tokenPrefix}Author}`, authorsList.join(', '));
+                    newReadme = newReadme.replace(`{${tokenPrefix}Author}`, authorsList.slice(0, 3).join(', '));
                 }
             }
 
