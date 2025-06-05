@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const wizardButton = document.getElementById('wizardButton');
     const manualButton = document.getElementById('manualButton');
     const includePreviewCheckbox = document.getElementById('includePreview');
+    const finishedLabel = document.getElementById('finishedLabel');
     let currentYmlContent = null;
 
-    if (!fileInput || !wizardButton || !manualButton || !includePreviewCheckbox) {
+    if (!fileInput || !wizardButton || !manualButton || !includePreviewCheckbox || !finishedLabel) {
         console.error('Required elements not found');
         return;
     }
@@ -19,9 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             try {
                 currentYmlContent = await file.text();
+                finishedLabel.value = 'YAML file loaded successfully';
                 console.log('YAML file loaded successfully');
             } catch (error) {
                 console.error('Error reading file:', error);
+                finishedLabel.value = 'Error reading file. Please try again.';
                 alert('Error reading file. Please try again.');
             }
         }
@@ -30,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Wizard README generation
     wizardButton.addEventListener('click', async () => {
         if (!currentYmlContent) {
+            finishedLabel.value = 'Please select a YAML file first';
             alert('Please select a YAML file first');
             return;
         }
@@ -45,12 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
                     downloadImage(result.previewImage.url, result.previewImage.name);
+                    finishedLabel.value = `README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
+                } else {
+                    finishedLabel.value = `README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\nPreview image not created, don't forget to edit the image url manually yourself!`;
                 }
             } else {
+                finishedLabel.value = result.message;
                 alert(result.message);
             }
         } catch (error) {
             console.error('Error generating README:', error);
+            finishedLabel.value = 'Error generating README. Please try again.';
             alert('Error generating README. Please try again.');
         }
     });
@@ -58,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Manual README generation
     manualButton.addEventListener('click', async () => {
         if (!currentYmlContent) {
+            finishedLabel.value = 'Please select a YAML file first';
             alert('Please select a YAML file first');
             return;
         }
@@ -73,12 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
                     downloadImage(result.previewImage.url, result.previewImage.name);
+                    finishedLabel.value = `README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\nPreview image '${result.previewImage.name}' created and downloaded to your Downloads folder.`;
+                } else {
+                    finishedLabel.value = `README.md created for '${result.message.split("'")[1]}' and downloaded to your Downloads folder.\nPreview image not created, don't forget to edit the image url manually yourself!`;
                 }
             } else {
+                finishedLabel.value = result.message;
                 alert(result.message);
             }
         } catch (error) {
             console.error('Error generating README:', error);
+            finishedLabel.value = 'Error generating README. Please try again.';
             alert('Error generating README. Please try again.');
         }
     });
