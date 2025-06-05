@@ -1,0 +1,46 @@
+﻿<Window x:Class="ReadmeGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReadmeGenerator"
+        mc:Ignorable="d"
+        Title="VPXS 4KP ~ README Generator" Height="447" Width="800"
+        ResizeMode="NoResize">
+    <Grid Background="#FFFFCDEE">
+        <TextBox Name="fileLabel" HorizontalAlignment="Left" Margin="49,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="516" Height="33" FontSize="14" Background="#FFFFF8F8" Padding="5"/>
+        <Button Content="Select .yml" VerticalContentAlignment="Center" Margin="584,72,41,0" VerticalAlignment="Top" Height="33" Background="#FFFF9BE5" Foreground="White" FontSize="20" Click="Button_Click" RenderTransformOrigin="1.59,0.558"/>
+        <Button Name="wiz_gen" Content="WIZARD   README" VerticalContentAlignment="Center" Margin="0,151,40,0" VerticalAlignment="Top" Height="41" Background="#FFFF9BE5" Foreground="White" FontSize="20" RenderTransformOrigin="1.59,0.558" Click="wiz_gen_Click" HorizontalAlignment="Right" Width="333"/>
+        <Button Name="man_gen" Content="MANUAL   README" VerticalContentAlignment="Center" Margin="49,151,0,0" VerticalAlignment="Top" Height="41" Background="#FFFF9BE5" Foreground="White" FontSize="20" RenderTransformOrigin="1.59,0.558" Click="man_gen_Click" HorizontalAlignment="Left" Width="333"/>
+        <Label Content="VPXS 4KP ~ README Generator " HorizontalAlignment="Left" Margin="98,14,0,0" VerticalAlignment="Top" Height="58" Width="635" Foreground="#FFFF0BDE" FontSize="30" FontWeight="Light"/>
+        <TextBox Name="finishedLabel" Padding="10" Text="" TextWrapping="Wrap" Margin="50,216,40,44" Foreground="#FFFF0BDE" FontWeight="Light" FontSize="20" Background="#FFFFF6FD" BorderBrush="{x:Null}" />
+        <Image Margin="50,22,688,343" Source="/Content/flower.png" Stretch="Fill" RenderTransformOrigin="0.344,0.258"/>
+        <Label Content="&lt;3 Osie" HorizontalAlignment="Left" Margin="683,374,0,-12" Width="117" Foreground="#FFFF0BDE" FontSize="18" FontWeight="Light"/>
+        <CheckBox Name="includePreview" Content="Include Preview Image" HorizontalAlignment="Left" Margin="584,118,0,0" VerticalAlignment="Top" Height="28" Width="176" IsChecked="True" />
+
+    </Grid>
+</Window>
+
+<!-- DARK THEME-->
+<!--<Window x:Class="ReadmeGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReadmeGenerator"
+        mc:Ignorable="d"
+        Title="VPXS 4KP ~ README Generator" Height="447" Width="800"
+        ResizeMode="NoResize">
+    <Grid Background="#FF090909">
+        <TextBox Name="fileLabel" HorizontalAlignment="Left" Margin="49,72,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="516" Height="33" FontSize="14" Background="#FF2E2E2E" Padding="5" Foreground="#FFFFEDFD"/>
+        <Button Content="Select .yml" VerticalContentAlignment="Center" Margin="584,72,41,0" VerticalAlignment="Top" Height="33" Background="#FFC9259E" Foreground="White" FontSize="20" Click="Button_Click" RenderTransformOrigin="1.59,0.558"/>
+        <Button Name="wiz_gen" Content="WIZARD   README" VerticalContentAlignment="Center" Margin="0,151,40,0" VerticalAlignment="Top" Height="41" Background="#FFC9259E" Foreground="White" FontSize="20" RenderTransformOrigin="1.59,0.558" Click="wiz_gen_Click" HorizontalAlignment="Right" Width="333"/>
+        <Button Name="man_gen" Content="MANUAL   README" VerticalContentAlignment="Center" Margin="49,151,0,0" VerticalAlignment="Top" Height="41" Background="#FFC9259E" Foreground="White" FontSize="20" RenderTransformOrigin="1.59,0.558" Click="man_gen_Click" HorizontalAlignment="Left" Width="333"/>
+        <Label Content="VPXS 4KP ~ README Generator " HorizontalAlignment="Left" Margin="98,14,0,0" VerticalAlignment="Top" Height="58" Width="635" Foreground="#FFFF0BDE" FontSize="30" FontWeight="Light"/>
+        <TextBox Name="finishedLabel" Padding="10" Text="" TextWrapping="Wrap" Margin="50,216,40,44" Foreground="#FFFFEDFD" FontWeight="Light" FontSize="20" Background="#FF2E2E2E" BorderBrush="{x:Null}" />
+        <Image Margin="50,22,688,343" Source="/Content/flower.png" Stretch="Fill" RenderTransformOrigin="0.344,0.258"/>
+        <Label Content="&lt;3 Osie" HorizontalAlignment="Left" Margin="683,374,0,-12" Width="117" Foreground="#FFFF0BDE" FontSize="18" FontWeight="Light"/>
+        <CheckBox Name="includePreview" Content="Include Preview Image" HorizontalAlignment="Left" Margin="584,118,0,0" VerticalAlignment="Top" Height="28" Width="176" IsChecked="True" Foreground="#FFFEE4FF" />
+
+    </Grid>
+</Window>-->

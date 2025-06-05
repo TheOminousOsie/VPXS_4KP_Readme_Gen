@@ -1,0 +1,6 @@
+C:\Users\OsieO'Connor\Downloads\ReadmeGenerator.exe
+C:\Users\OsieO'Connor\Downloads\ReadmeGenerator.dll
+C:\Users\OsieO'Connor\Downloads\ReadmeGenerator.deps.json
+C:\Users\OsieO'Connor\Downloads\ReadmeGenerator.runtimeconfig.json
+C:\Users\OsieO'Connor\Downloads\ReadmeGenerator.pdb
+C:\Users\OsieO'Connor\Downloads\YamlDotNet.dll

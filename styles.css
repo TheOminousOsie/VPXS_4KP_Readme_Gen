@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FFCDEE;
+}
+
+.container {
+    width: 800px;
+    height: 447px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header h1 {
+    color: #FF0BDE;
+    font-size: 30px;
+    font-weight: 300;
+    margin: 0;
+    width: 635px;
+}
+
+.flower-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 19px;
+    margin: 72px 41px 0 49px;
+}
+
+.file-input {
+    flex: 1;
+    height: 41px;
+    font-size: 14px;
+    background-color: #FFF8F8;
+    border: none;
+    padding: 6px 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.file-input::file-selector-button {
+    background-color: #FF9BE5;
+    color: white;
+    font-size: 20px;
+    border: none;
+    padding: 0 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    height: 29px;
+    line-height: 29px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: #FF8AD4;
+}
+
+.select-btn {
+    height: 33px;
+    background-color: #FF9BE5;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    padding: 0 20px;
+    white-space: nowrap;
+}
+
+.checkbox-section {
+    margin: 13px 0 0 584px;
+}
+
+.preview-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 40px 0 49px;
+}
+
+.action-btn {
+    width: 333px;
+    height: 41px;
+    background-color: #FF9BE5;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.output-section {
+    margin: 24px 40px 20px 50px;
+    position: relative;
+}
+
+.output-text {
+    width: 100%;
+    height: 187px;
+    background-color: #FFF6FD;
+    border: none;
+    color: #FF0BDE;
+    font-size: 20px;
+    font-weight: 300;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0 40px 0 50px;
+}
+
+.signature {
+    color: #FF0BDE;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+/* Dark theme (commented out, can be enabled by adding 'dark-theme' class to body) */
+.dark-theme {
+    background-color: #090909;
+}
+
+.dark-theme .file-input,
+.dark-theme .output-text {
+    background-color: #2E2E2E;
+    color: #FFEDFD;
+}
+
+.dark-theme .select-btn,
+.dark-theme .action-btn {
+    background-color: #C9259E;
+}
+
+.dark-theme .preview-checkbox {
+    color: #FEE4FF;
+}
+
+.dark-theme .file-input::file-selector-button {
+    background-color: #C9259E;
+} 
