@@ -67,7 +67,9 @@ class ReadmeService {
                 const vpxFile = table.tableFiles.find(file => file.id === config.vpxVPSId);
                 if (vpxFile && vpxFile.imgUrl) {
                     previewImageUrl = vpxFile.imgUrl;
-                    previewImageName = `${name}-preview${this.getFileExtension(previewImageUrl)}`;
+                    // Sanitize vpxVPSId for file path and use it for the preview image name
+                    const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
+                    previewImageName = `${sanitizedId}-preview${this.getFileExtension(previewImageUrl)}`;
                     newReadme = newReadme.replace(/{previewImageName}/g, previewImageName);
                 }
             }
@@ -299,7 +301,9 @@ class ReadmeService {
                 const vpxFile = table.tableFiles.find(file => file.id === config.vpxVPSId);
                 if (vpxFile && vpxFile.imgUrl) {
                     previewImageUrl = vpxFile.imgUrl;
-                    previewImageName = `${name}-preview${this.getFileExtension(previewImageUrl)}`;
+                    // Sanitize vpxVPSId for file path and use it for the preview image name
+                    const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
+                    previewImageName = `${sanitizedId}-preview${this.getFileExtension(previewImageUrl)}`;
                     newReadme = newReadme.replace(/{previewImageName}/g, previewImageName);
                 }
             }
