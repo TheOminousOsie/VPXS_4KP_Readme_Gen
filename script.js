@@ -1,4 +1,4 @@
-import ReadmeService from './services/ReadmeService.js';
+import ReadmeService from './Services/ReadmeService.js';
 
 // Function to handle file selection
 document.addEventListener('DOMContentLoaded', () => {

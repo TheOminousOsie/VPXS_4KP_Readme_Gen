@@ -1,4 +1,4 @@
-import WizardYml from '../models/WizardYml.js';
+import WizardYml from '../Models/WizardYml.js';
 import VpsTableService from './VpsTableService.js';
 import * as YAML from 'https://cdn.jsdelivr.net/npm/yaml@2.3.4/browser/dist/index.min.js';
 
@@ -29,7 +29,7 @@ class ReadmeService {
             const year = table.year;
 
             // Load README template
-            const response = await fetch('/content/wiz_README.md');
+            const response = await fetch('/Content/wiz_README.md');
             let newReadme = await response.text();
 
             // Replace placeholders
@@ -98,7 +98,7 @@ class ReadmeService {
             const year = table.year;
 
             // Load README template
-            const response = await fetch('/content/man_README.md');
+            const response = await fetch('/Content/man_README.md');
             let newReadme = await response.text();
 
             // Replace placeholders
