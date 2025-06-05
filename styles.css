@@ -27,8 +27,9 @@ html.dark-mode #darkModeOverlay {
 }
 
 .container {
-    width: 800px;
-    height: 447px;
+    width: 100%;
+    max-width: 800px;
+    min-height: 447px;
     margin: 0 auto;
     position: relative;
     padding: 20px;
@@ -41,21 +42,22 @@ html.dark-mode #darkModeOverlay {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin: 10px 41px 0 49px;
+    margin: 10px 20px 0 20px;
 }
 
 .header h1 {
     color: #FF0BDE;
-    font-size: 30px;
+    font-size: clamp(20px, 5vw, 30px);
     font-weight: 300;
     margin: 0;
-    width: 635px;
+    width: 100%;
 }
 
 .flower-image {
-    width: 50px;
-    height: 50px;
+    width: clamp(30px, 8vw, 50px);
+    height: clamp(30px, 8vw, 50px);
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 .input-section {
@@ -63,7 +65,7 @@ html.dark-mode #darkModeOverlay {
     flex-direction: row;
     align-items: center;
     gap: 19px;
-    margin: 72px 41px 0 49px;
+    margin: 40px 20px 0 20px;
 }
 
 .file-input {
@@ -82,7 +84,7 @@ html.dark-mode #darkModeOverlay {
 .file-input::file-selector-button {
     background-color: #FF9BE5;
     color: white;
-    font-size: 20px;
+    font-size: clamp(14px, 4vw, 20px);
     border: none;
     padding: 0 20px;
     margin-right: 10px;
@@ -109,7 +111,7 @@ html.dark-mode #darkModeOverlay {
 }
 
 .checkbox-section {
-    margin: 10px 41px 0 49px;
+    margin: 10px 20px 0 20px;
 }
 
 .preview-checkbox {
@@ -121,22 +123,36 @@ html.dark-mode #darkModeOverlay {
 
 .button-group {
     display: flex;
-    justify-content: space-between;
-    margin: 40px 40px 0 49px;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 20px 0 20px;
+}
+
+@media (min-width: 600px) {
+    .button-group {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
 .action-btn {
-    width: 333px;
+    width: 100%;
     height: 41px;
     background-color: #FF9BE5;
     color: white;
-    font-size: 20px;
+    font-size: clamp(16px, 4vw, 20px);
     border: none;
     cursor: pointer;
 }
 
+@media (min-width: 600px) {
+    .action-btn {
+        width: 333px;
+    }
+}
+
 .output-section {
-    margin: 24px 40px 20px 50px;
+    margin: 24px 20px 20px 20px;
     position: relative;
 }
 
@@ -146,7 +162,7 @@ html.dark-mode #darkModeOverlay {
     background-color: #FFF6FD;
     border: none;
     color: #FF0BDE;
-    font-size: 20px;
+    font-size: clamp(14px, 4vw, 20px);
     font-weight: 300;
     padding: 10px;
     box-sizing: border-box;
@@ -156,12 +172,12 @@ html.dark-mode #darkModeOverlay {
 
 .footer {
     width: 100%; 
-    margin: 24px 40px 20px 50px;
+    margin: 24px 20px 20px 20px;
 }
 
 .signature {
     color: #FF0BDE;
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 18px);
     font-weight: 300;
 }
 
