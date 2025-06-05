@@ -90,6 +90,84 @@ class ReadmeService {
         }
     }
 
+    updateUrlFields(newReadme, table, vpsId, tokenPrefix, urlOverride = null, authors = null) {
+        if (urlOverride) {
+            newReadme = newReadme.replace(`{${tokenPrefix}Link}`, urlOverride);
+            const uri = new URL(urlOverride);
+            const host = uri.host;
+            const parts = host.split('.');
+
+            let domainName;
+            if (parts.length >= 2 && parts[0] === 'www') {
+                domainName = parts[1]; // Take second part if first is "www"
+            } else {
+                domainName = parts[0]; // Take first part otherwise
+            }
+            newReadme = newReadme.replace(`{${tokenPrefix}Website}`, domainName);
+
+            newReadme = newReadme.replace(`{${tokenPrefix}Version}`, 'N/A');
+            newReadme = newReadme.replace(`{${tokenPrefix}Author}`, 'N/A');
+
+            return { readme: newReadme, success: true };
+        } else {
+            let file = null;
+            for (const token of ['table', 'b2s', 'rom', 'pupPack']) {
+                if (file) break;
+
+                const fileArray = table[`${token}Files`];
+                if (fileArray) {
+                    for (const fle of fileArray) {
+                        if (fle.id === vpsId) {
+                            file = fle;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!file) {
+                return { readme: newReadme, success: false };
+            }
+
+            const fileUrls = file.urls || [];
+            for (const fileUrl of fileUrls) {
+                if (!fileUrl.broken) {
+                    if (fileUrl.url) {
+                        newReadme = newReadme.replace(`{${tokenPrefix}Link}`, fileUrl.url);
+                        const uri = new URL(fileUrl.url);
+                        const host = uri.host;
+                        const parts = host.split('.');
+
+                        let domainName;
+                        if (parts.length >= 2 && parts[0] === 'www') {
+                            domainName = parts[1]; // Take second part if first is "www"
+                        } else {
+                            domainName = parts[0]; // Take first part otherwise
+                        }
+                        newReadme = newReadme.replace(`{${tokenPrefix}Website}`, domainName);
+                        break;
+                    }
+                }
+            }
+
+            if (authors) {
+                newReadme = newReadme.replace(`{${tokenPrefix}Author}`, authors.join(', '));
+            } else {
+                const authorsList = file.authors;
+                if (!authorsList) {
+                    newReadme = newReadme.replace(`{${tokenPrefix}Author}`, 'N/A');
+                } else {
+                    newReadme = newReadme.replace(`{${tokenPrefix}Author}`, authorsList.join(', '));
+                }
+            }
+
+            const version = file.version || 'N/A';
+            newReadme = newReadme.replace(`{${tokenPrefix}Version}`, version);
+
+            return { readme: newReadme, success: true };
+        }
+    }
+
     async generateManualReadme(ymlContent, includePreview) {
         try {
             // Parse YAML content
@@ -134,6 +212,32 @@ class ReadmeService {
                 .replace(/{romNotes}/g, config.romNotes || '')
                 .replace(/{coloredROMNotes}/g, config.coloredROMNotes || '')
                 .replace(/{pupNotes}/g, config.pupNotes || '');
+
+            // Update URL fields
+            const tableResult = this.updateUrlFields(newReadme, table, config.vpxVPSId, 'table', config.vpxUrlOverride);
+            if (tableResult.success) {
+                newReadme = tableResult.readme;
+            }
+
+            const backglassResult = this.updateUrlFields(newReadme, table, config.backglassVPSId, 'b2s', config.backglassUrlOverride, config.backglassAuthorsOverride);
+            if (backglassResult.success) {
+                newReadme = backglassResult.readme;
+            }
+
+            const romResult = this.updateUrlFields(newReadme, table, config.romVPSId, 'rom', config.romUrlOverride);
+            if (romResult.success) {
+                newReadme = romResult.readme;
+            }
+
+            const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'coloredRom', config.coloredROMUrlOverride);
+            if (coloredRomResult.success) {
+                newReadme = coloredRomResult.readme;
+            }
+
+            const pupResult = this.updateUrlFields(newReadme, table, config.pupVPSId, 'pup', config.pupFileUrl);
+            if (pupResult.success) {
+                newReadme = pupResult.readme;
+            }
 
             // Handle preview image
             let previewImageUrl = '';
