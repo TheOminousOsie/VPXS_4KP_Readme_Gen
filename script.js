@@ -22,6 +22,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentYmlContent = await file.text();
                 finishedLabel.value = 'YAML file loaded successfully';
                 console.log('YAML file loaded successfully');
+                
+                // Parse and log YAML fields
+                const config = new WizardYml(YAML.parse(currentYmlContent));
+                console.log('Parsed YAML fields:', {
+                    // Basic properties
+                    enabled: config.enabled,
+                    fps: config.fps,
+                    tagline: config.tagline,
+                    testers: config.testers,
+                    
+                    // Table related
+                    tableNameOverride: config.tableNameOverride,
+                    tableNotes: config.tableNotes,
+                    tableVPSId: config.tableVPSId,
+                    
+                    // VPX related
+                    vpxChecksum: config.vpxChecksum,
+                    vpxVPSId: config.vpxVPSId,
+                    vpxNotes: config.vpxNotes,
+                    
+                    // Backglass related
+                    backglassAuthorsOverride: config.backglassAuthorsOverride,
+                    backglassBundled: config.backglassBundled,
+                    backglassChecksum: config.backglassChecksum,
+                    backglassImageOverride: config.backglassImageOverride,
+                    backglassNotes: config.backglassNotes,
+                    backglassUrlOverride: config.backglassUrlOverride,
+                    backglassVPSId: config.backglassVPSId,
+                    
+                    // ROM related
+                    romBundled: config.romBundled,
+                    romChecksum: config.romChecksum,
+                    romNotes: config.romNotes,
+                    romUrlOverride: config.romUrlOverride,
+                    romVersionOverride: config.romVersionOverride,
+                    romVPSId: config.romVPSId,
+                    
+                    // Colored ROM related
+                    coloredROMBundled: config.coloredROMBundled,
+                    coloredROMChecksum: config.coloredROMChecksum,
+                    coloredROMNotes: config.coloredROMNotes,
+                    coloredROMUrlOverride: config.coloredROMUrlOverride,
+                    coloredROMVersionOverride: config.coloredROMVersionOverride,
+                    coloredROMVPSId: config.coloredROMVPSId,
+                    
+                    // PUP related
+                    pupArchiveFormat: config.pupArchiveFormat,
+                    pupArchiveRoot: config.pupArchiveRoot,
+                    pupChecksum: config.pupChecksum,
+                    pupFileUrl: config.pupFileUrl,
+                    pupNotes: config.pupNotes,
+                    pupRequired: config.pupRequired,
+                    pupVersion: config.pupVersion,
+                    
+                    // Main notes
+                    mainNotes: config.mainNotes,
+                    
+                    // Apply fixes
+                    applyFixes: config.applyFixes
+                });
             } catch (error) {
                 console.error('Error reading file:', error);
                 finishedLabel.value = 'Error reading file. Please try again.';
