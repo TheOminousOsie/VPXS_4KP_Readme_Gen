@@ -7,6 +7,20 @@ class ReadmeService {
         this.vpsUrl = 'https://virtualpinballspreadsheet.github.io/vps-db/db/vpsdb.json';
     }
 
+    convertTitle(title) {
+        const matchThe = title.match(/^(JP'?s\s*)?(The)\s+(.+)$/);
+        const matchJps = title.match(/^(JP'?s)\s+(.+)$/);
+
+        if (matchThe && matchThe[2]) {
+            const prefix = matchThe[1] || "";
+            return `${matchThe[3]}, ${prefix}${matchThe[2]}`;
+        } else if (matchJps) {
+            return `${matchJps[2]}, ${matchJps[1]}`;
+        } else {
+            return title;
+        }
+    }
+
     async generateWizardReadme(ymlContent, includePreview) {
         try {
             // Parse YAML content
@@ -150,14 +164,6 @@ class ReadmeService {
                 message: `Error generating README: ${error.message}`
             };
         }
-    }
-
-    convertTitle(title) {
-        // Convert title to proper case
-        return title
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ');
     }
 
     getFileExtension(url) {
