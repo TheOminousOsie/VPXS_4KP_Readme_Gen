@@ -45,7 +45,7 @@
         // Check for dark mode query parameter
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
+            document.documentElement.classList.add('dark-mode');
         }
     </script>
 </body>

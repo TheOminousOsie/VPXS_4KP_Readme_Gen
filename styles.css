@@ -17,11 +17,11 @@ body {
     display: none;
 }
 
-body.dark-mode {
+html.dark-mode {
     filter: invert(1) hue-rotate(180deg);
 }
 
-body.dark-mode #darkModeOverlay {
+html.dark-mode #darkModeOverlay {
     display: block;
     background-color: rgba(0, 0, 0, 0.1);
 }
