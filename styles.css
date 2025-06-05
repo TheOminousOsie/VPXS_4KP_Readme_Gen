@@ -41,6 +41,7 @@ html.dark-mode #darkModeOverlay {
     display: flex;
     align-items: center;
     gap: 20px;
+    margin: 10px 41px 0 49px;
 }
 
 .header h1 {
@@ -108,7 +109,7 @@ html.dark-mode #darkModeOverlay {
 }
 
 .checkbox-section {
-    margin: 13px 0 0 584px;
+    margin: 10px 41px 0 49px;
 }
 
 .preview-checkbox {
@@ -154,10 +155,8 @@ html.dark-mode #darkModeOverlay {
 }
 
 .footer {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 0 40px 0 50px;
+    width: 100%; 
+    margin: 24px 40px 20px 50px;
 }
 
 .signature {
