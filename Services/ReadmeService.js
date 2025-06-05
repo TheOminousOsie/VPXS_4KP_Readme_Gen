@@ -219,24 +219,76 @@ class ReadmeService {
                 newReadme = tableResult.readme;
             }
 
-            const backglassResult = this.updateUrlFields(newReadme, table, config.backglassVPSId, 'b2s', config.backglassUrlOverride, config.backglassAuthorsOverride);
-            if (backglassResult.success) {
-                newReadme = backglassResult.readme;
+            // Handle backglass
+            if (config.backglassChecksum && !config.backglassBundled) {
+                const backglassResult = this.updateUrlFields(newReadme, table, config.backglassVPSId, 'b2s', config.backglassUrlOverride, config.backglassAuthorsOverride);
+                if (backglassResult.success) {
+                    newReadme = backglassResult.readme;
+                }
+            } else if (config.backglassBundled) {
+                const backglassResult = this.updateUrlFields(newReadme, table, config.vpxVPSId, 'b2s');
+                if (backglassResult.success) {
+                    newReadme = backglassResult.readme;
+                }
+            } else {
+                newReadme = newReadme
+                    .replace(/{b2sWebsite}/g, 'N/A')
+                    .replace(/{b2sLink}/g, 'N/A')
+                    .replace(/{b2sVersion}/g, 'N/A')
+                    .replace(/{b2sAuthor}/g, 'N/A');
             }
 
-            const romResult = this.updateUrlFields(newReadme, table, config.romVPSId, 'rom', config.romUrlOverride);
-            if (romResult.success) {
-                newReadme = romResult.readme;
+            // Handle ROM
+            if (config.romChecksum && !config.romBundled) {
+                const romResult = this.updateUrlFields(newReadme, table, config.romVPSId, 'rom', config.romUrlOverride);
+                if (romResult.success) {
+                    newReadme = romResult.readme;
+                }
+            } else if (config.romBundled) {
+                const romResult = this.updateUrlFields(newReadme, table, config.vpxVPSId, 'rom');
+                if (romResult.success) {
+                    newReadme = romResult.readme;
+                }
+            } else {
+                newReadme = newReadme
+                    .replace(/{romWebsite}/g, 'N/A')
+                    .replace(/{romLink}/g, 'N/A')
+                    .replace(/{romVersion}/g, 'N/A')
+                    .replace(/{romAuthor}/g, 'N/A');
             }
 
+            // Handle colored ROM
             const coloredRomResult = this.updateUrlFields(newReadme, table, config.coloredROMVPSId, 'coloredRom', config.coloredROMUrlOverride);
             if (coloredRomResult.success) {
                 newReadme = coloredRomResult.readme;
             }
 
-            const pupResult = this.updateUrlFields(newReadme, table, config.pupVPSId, 'pup', config.pupFileUrl);
-            if (pupResult.success) {
-                newReadme = pupResult.readme;
+            // Handle PUP
+            if (config.pupChecksum) {
+                newReadme = newReadme
+                    .replace(/{pupPackLink}/g, config.pupFileUrl);
+                
+                const uri = new URL(config.pupFileUrl);
+                const host = uri.host;
+                const parts = host.split('.');
+
+                let domainName;
+                if (parts.length >= 2 && parts[0] === 'www') {
+                    domainName = parts[1]; // Take second part if first is "www"
+                } else {
+                    domainName = parts[0]; // Take first part otherwise
+                }
+                
+                newReadme = newReadme
+                    .replace(/{pupPackWebsite}/g, domainName)
+                    .replace(/{pupPackVersion}/g, config.pupVersion)
+                    .replace(/{pupPackAuthor}/g, 'N/A');
+            } else {
+                newReadme = newReadme
+                    .replace(/{pupPackWebsite}/g, 'N/A')
+                    .replace(/{pupPackLink}/g, 'N/A')
+                    .replace(/{pupPackVersion}/g, 'N/A')
+                    .replace(/{pupPackAuthor}/g, 'N/A');
             }
 
             // Handle preview image
