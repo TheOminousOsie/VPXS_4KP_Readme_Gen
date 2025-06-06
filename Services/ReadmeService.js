@@ -246,7 +246,7 @@ class ReadmeService {
             } else {
                 newReadme = newReadme
                     .replace(/{b2sWebsite}/g, 'N/A')
-                    .replace(/{b2sLink}/g, 'N/A')
+                    .replace(/{b2sLink}/g, '#')
                     .replace(/{b2sVersion}/g, 'N/A')
                     .replace(/{b2sAuthor}/g, 'N/A');
             }
@@ -265,7 +265,7 @@ class ReadmeService {
             } else {
                 newReadme = newReadme
                     .replace(/{romWebsite}/g, 'N/A')
-                    .replace(/{romLink}/g, 'N/A')
+                    .replace(/{romLink}/g, '#')
                     .replace(/{romVersion}/g, 'N/A')
                     .replace(/{romAuthor}/g, 'N/A');
             }
@@ -284,7 +284,7 @@ class ReadmeService {
             } else {
                 newReadme = newReadme
                     .replace(/{altColorWebsite}/g, 'N/A')
-                    .replace(/{altColorLink}/g, 'N/A')
+                    .replace(/{altColorLink}/g, '#')
                     .replace(/{altColorVersion}/g, 'N/A')
                     .replace(/{altColorAuthor}/g, 'N/A');
             }
@@ -312,7 +312,7 @@ class ReadmeService {
             } else {
                 newReadme = newReadme
                     .replace(/{pupPackWebsite}/g, 'N/A')
-                    .replace(/{pupPackLink}/g, 'N/A')
+                    .replace(/{pupPackLink}/g, '#')
                     .replace(/{pupPackVersion}/g, 'N/A')
                     .replace(/{pupPackAuthor}/g, 'N/A');
             }
