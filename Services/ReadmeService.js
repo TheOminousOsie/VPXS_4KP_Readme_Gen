@@ -38,7 +38,7 @@ class ReadmeService {
             }
 
             // Get table details
-            const name = config.tableNameOverride || this.convertTitle(table.name);
+            let name = config.tableNameOverride || this.convertTitle(table.name);
             const manufacturer = table.manufacturer;
             const year = table.year;
 
@@ -193,7 +193,7 @@ class ReadmeService {
             }
 
             // Get table details
-            const name = config.tableNameOverride || this.convertTitle(table.name);
+            let name = config.tableNameOverride || this.convertTitle(table.name);
             const manufacturer = table.manufacturer;
             const year = table.year;
 
