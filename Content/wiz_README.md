@@ -1,4 +1,4 @@
-# {name} ({manufacturer} {year})
+# {name}
 
 ![Table Preview](../../images/{previewImageName})
 

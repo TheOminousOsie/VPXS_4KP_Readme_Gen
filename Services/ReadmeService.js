@@ -42,6 +42,8 @@ class ReadmeService {
             const manufacturer = table.manufacturer;
             const year = table.year;
 
+            name = `${name} (${manufacturer} ${year})`;
+
             // Sanitize VPS ID for filenames
             const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
 
@@ -195,6 +197,8 @@ class ReadmeService {
             const manufacturer = table.manufacturer;
             const year = table.year;
 
+            name = `${name} (${manufacturer} ${year})`;
+            
             // Sanitize VPS ID for filenames
             const sanitizedId = config.vpxVPSId.replace(/[^a-zA-Z0-9-_]/g, '_');
 
