@@ -5,7 +5,7 @@
 ---
 
 ## Files
-| File Type | Link | Version | Author | 
+| File Type | Link | Version | Author(s) | 
 |-----------|--------|----------|--------------|
 | **VPX** | [{tableWebsite}]({tableLink}) | {tableVersion} | {tableAuthor} |
 | **B2S** | [{b2sWebsite}]({b2sLink}) | {b2sVersion} | {b2sAuthor} |
