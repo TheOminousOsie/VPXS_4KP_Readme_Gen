@@ -8,10 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const wizardButton = document.getElementById('wizardButton');
     const manualButton = document.getElementById('manualButton');
     const includePreviewCheckbox = document.getElementById('includePreview');
+    const prefixTableIdCheckbox = document.getElementById('prefixTableId');
     const finishedLabel = document.getElementById('finishedLabel');
     let currentYmlContent = null;
 
-    if (!fileInput || !wizardButton || !manualButton || !includePreviewCheckbox || !finishedLabel) {
+    if (!fileInput || !wizardButton || !manualButton || !includePreviewCheckbox || !prefixTableIdCheckbox || !finishedLabel) {
         console.error('Required elements not found');
         return;
     }
@@ -106,7 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (result.success) {
                 // Create and download the README file
-                downloadFile(result.readme, `${result.sanitizedId}_README.md`);
+                const filename = prefixTableIdCheckbox.checked ? `${result.sanitizedId}_README.md` : 'README.md';
+                downloadFile(result.readme, filename);
                 
                 // If there's a preview image, download it
                 if (result.previewImage.url) {
@@ -140,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (result.success) {
                 // Create and download the README file
-                downloadFile(result.readme, `${result.sanitizedId}_README.md`);
+                const filename = prefixTableIdCheckbox.checked ? `${result.sanitizedId}_README.md` : 'README.md';
+                downloadFile(result.readme, filename);
                 
                 // If there's a preview image, download it
                 if (result.previewImage.url) {

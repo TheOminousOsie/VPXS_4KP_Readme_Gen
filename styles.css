@@ -112,13 +112,25 @@ html.dark-mode #darkModeOverlay {
 
 .checkbox-section {
     margin: 10px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (min-width: 600px) {
+    .checkbox-section {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 .preview-checkbox {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 14px;
+    font-size: clamp(14px, 4vw, 16px);
+    white-space: nowrap;
 }
 
 .button-group {
