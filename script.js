@@ -7,12 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileLabel');
     const wizardButton = document.getElementById('wizardButton');
     const manualButton = document.getElementById('manualButton');
+    const validateButton = document.getElementById('validateButton');
     const includePreviewCheckbox = document.getElementById('includePreview');
     const prefixTableIdCheckbox = document.getElementById('prefixTableId');
     const finishedLabel = document.getElementById('finishedLabel');
     let currentYmlContent = null;
 
-    if (!fileInput || !wizardButton || !manualButton || !includePreviewCheckbox || !prefixTableIdCheckbox || !finishedLabel) {
+    if (!fileInput || !wizardButton || !manualButton || !validateButton || !includePreviewCheckbox || !prefixTableIdCheckbox || !finishedLabel) {
         console.error('Required elements not found');
         return;
     }
@@ -162,6 +163,29 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Error generating README. Please try again.');
         }
     });
+
+    // Handle YML validation
+    validateButton.addEventListener('click', async () => {
+        if (!currentYmlContent) {
+            finishedLabel.value = 'Please select a YAML file first';
+            alert('Please select a YAML file first');
+            return;
+        }
+
+        try {
+            const result = await validateYml(currentYmlContent);
+            if (result.success) {
+                finishedLabel.value = result.message;
+            } else {
+                finishedLabel.value = result.message;
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Error validating YML:', error);
+            finishedLabel.value = 'Error validating YML. Please try again.';
+            alert('Error validating YML. Please try again.');
+        }
+    });
 });
 
 // Helper function to download text files
@@ -192,5 +216,49 @@ async function downloadImage(url, filename) {
         document.body.removeChild(a);
     } catch (error) {
         console.error('Error downloading image:', error);
+    }
+}
+
+// Helper function to validate YML
+async function validateYml(ymlContent) {
+    try {
+        const config = new WizardYml(YAML.parse(ymlContent));
+        
+        // Basic validation
+        if (!config.enabled) {
+            return {
+                success: false,
+                message: 'YML validation failed: Table is not enabled'
+            };
+        }
+
+        // Add more validation rules as needed
+        const validationResults = [];
+        
+        // Check required fields
+        if (!config.fps) validationResults.push('FPS is required');
+        if (!config.tagline) validationResults.push('Tagline is required');
+        
+        // Check for at least one tester
+        if (!config.testers || config.testers.length === 0) {
+            validationResults.push('At least one tester is required');
+        }
+
+        if (validationResults.length > 0) {
+            return {
+                success: false,
+                message: 'YML validation failed:\n' + validationResults.join('\n')
+            };
+        }
+
+        return {
+            success: true,
+            message: 'YML validation successful! All required fields are present and valid.'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: 'YML validation failed: Invalid YAML format or structure'
+        };
     }
 } 
