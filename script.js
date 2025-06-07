@@ -1,6 +1,7 @@
 import ReadmeService from './Services/ReadmeService.js';
 import WizardYml from './Models/WizardYml.js';
 import * as YAML from 'https://cdn.jsdelivr.net/npm/yaml@2.3.4/browser/dist/index.min.js';
+import VpsTableService from './Services/VpsTableService.js';
 
 // Function to handle file selection
 document.addEventListener('DOMContentLoaded', () => {
@@ -235,9 +236,10 @@ async function validateYml(ymlContent) {
         const validationResults = [];
         
         // Check required fields
-        if (!config.fps) {
-            validationResults.push('- FPS is required');
-        } 
+        if (!config.tableVPSId) validationResults.push('- Table VPS Id is required');
+
+        if (!config.fps) validationResults.push('- FPS is required');
+        
         if (!config.tagline) validationResults.push('- Tagline is required');
         
         // Check for at least one tester
@@ -331,6 +333,42 @@ async function validateYml(ymlContent) {
             }
         }
 
+        // Check VPS IDs exist in database
+        const vpsService = new VpsTableService('https://virtualpinballspreadsheet.github.io/vps-db/db/vpsdb.json');
+        const vpsIdsToCheck = [
+            { id: config.tableVPSId, name: 'Table', token: 'table' },
+            { id: config.vpxVPSId, name: 'VPX', token: 'table' },
+            { id: config.backglassVPSId, name: 'Backglass', token: 'b2s' },
+            { id: config.romVPSId, name: 'ROM', token: 'rom' },
+            { id: config.coloredROMVPSId, name: 'Colored ROM', token: 'altColor' }
+        ];
+
+        for (const vpsId of vpsIdsToCheck) {
+            if (vpsId.id) {
+                const table = await vpsService.getTable(vpsId.id);
+                if (!table) {
+                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found in VPS database.`);
+                    continue;
+                }
+
+                // Check if the ID exists in the appropriate files array
+                let found = false;
+                const fileArray = table[`${vpsId.token}Files`];
+                if (fileArray) {
+                    for (const file of fileArray) {
+                        if (file.id === vpsId.id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!found) {
+                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found on table '${config.tableNameOverride}'`);
+                }
+            }
+        }
+
         // Check line lengths
         const lines = ymlContent.split('\n');
         for (let i = 0; i < lines.length; i++) {
@@ -352,12 +390,12 @@ async function validateYml(ymlContent) {
 
         return {
             success: true,
-            message: 'YML validation successful! All required fields are present and valid.'
+            message: 'YML validation successful! \n\nAll required fields are present and valid.'
         };
     } catch (error) {
         return {
             success: false,
-            message: 'YML validation failed: Invalid YAML format or structure'
+            message: 'YML validation failed: \n\nInvalid YAML format or structure'
         };
     }
 } 
