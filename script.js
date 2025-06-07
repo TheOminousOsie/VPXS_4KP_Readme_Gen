@@ -336,35 +336,34 @@ async function validateYml(ymlContent) {
         // Check VPS IDs exist in database
         const vpsService = new VpsTableService('https://virtualpinballspreadsheet.github.io/vps-db/db/vpsdb.json');
         const vpsIdsToCheck = [
-            { id: config.tableVPSId, name: 'Table', token: 'table' },
-            { id: config.vpxVPSId, name: 'VPX', token: 'table' },
-            { id: config.backglassVPSId, name: 'Backglass', token: 'b2s' },
-            { id: config.romVPSId, name: 'ROM', token: 'rom' },
-            { id: config.coloredROMVPSId, name: 'Colored ROM', token: 'altColor' }
+            { id: config.vpxVPSId, name: 'VPX' },
+            { id: config.backglassVPSId, name: 'Backglass' },
+            { id: config.romVPSId, name: 'ROM' },
+            { id: config.coloredROMVPSId, name: 'Colored ROM' }
         ];
+
+        const table = await vpsService.getTable(vpsId.id);
+        if (!table) {
+            validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found in VPS database.`);
+        }
 
         for (const vpsId of vpsIdsToCheck) {
             if (vpsId.id) {
-                const table = await vpsService.getTable(vpsId.id);
-                if (!table) {
-                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found in VPS database.`);
-                    continue;
-                }
-
                 // Check if the ID exists in the appropriate files array
                 let found = false;
-                const fileArray = table[`${vpsId.token}Files`];
-                if (fileArray) {
-                    for (const file of fileArray) {
-                        if (file.id === vpsId.id) {
-                            found = true;
-                            break;
+                for (const token of ['table', 'b2s', 'rom', 'pupPack', 'altColor']) {
+                    const fileArray = table[`${token}Files`];
+                    if (fileArray) {
+                        for (const fle of fileArray) {
+                            if (fle.id === vpsId.id) {
+                                found = true;
+                                break;
+                            }
                         }
                     }
                 }
-
                 if (!found) {
-                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found on table '${config.tableNameOverride}'`);
+                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found on table '${config.tableVPSId}'`);
                 }
             }
         }
