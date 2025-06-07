@@ -322,6 +322,18 @@ async function validateYml(ymlContent) {
             }
         }
 
+        // Check line lengths
+        const lines = ymlContent.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const previousLine = i > 0 ? lines[i - 1].trim() : '';
+            const isDisabled = previousLine === '# yamllint disable-line rule:line-length';
+            
+            if (!isDisabled && line.length > 120) {
+                validationResults.push(`- Line ${i + 1} exceeds 120 characters (${line.length} chars).\nConsider using '# yamllint disable-line rule:line-length' above the line if needed.\nLine content: ${line.substring(0, 50)}...`);
+            }
+        }
+
         if (validationResults.length > 0) {
             return {
                 success: false,
