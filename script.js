@@ -229,7 +229,7 @@ async function validateYml(ymlContent) {
         if (!config.fps) {
             validationResults.push('FPS is required');
         } else if (typeof config.fps !== 'number' || !Number.isInteger(config.fps)) {
-            validationResults.push('FPS must be number. It shouldnt be a string or a decimal. Currently \'' + config.fps + '\' is type ' + typeof config.fps);
+            validationResults.push('FPS must be number. \nIt shouldnt be a string or a decimal. \nCurrently \'' + config.fps + '\' is type ' + typeof config.fps);
         }
         if (!config.tagline) validationResults.push('Tagline is required');
         
@@ -241,7 +241,7 @@ async function validateYml(ymlContent) {
         if (validationResults.length > 0) {
             return {
                 success: false,
-                message: 'YML validation failed:\n' + validationResults.join('\n')
+                message: 'YML validation failed:\n' + validationResults.join('\n - ')
             };
         }
 
