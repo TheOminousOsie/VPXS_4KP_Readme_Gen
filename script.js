@@ -226,7 +226,11 @@ async function validateYml(ymlContent) {
         const validationResults = [];
         
         // Check required fields
-        if (!config.fps) validationResults.push('FPS is required');
+        if (!config.fps) {
+            validationResults.push('FPS is required');
+        } else if (typeof config.fps !== 'number' || !Number.isInteger(config.fps)) {
+            validationResults.push('FPS must be number. It shouldnt be a string or a decimal. Currently \'' + config.fps + '\' is type ' + typeof config.fps);
+        }
         if (!config.tagline) validationResults.push('Tagline is required');
         
         // Check for at least one tester
