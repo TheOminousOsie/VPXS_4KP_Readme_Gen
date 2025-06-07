@@ -232,19 +232,37 @@ async function validateYml(ymlContent) {
     try {
         const config = new WizardYml(YAML.parse(ymlContent));
         
-        // Add more validation rules as needed
         const validationResults = [];
+        
+        // Split YAML content into lines for validation
+        const yamlLines = ymlContent.split('\n');
         
         // Check required fields
         if (!config.tableVPSId) validationResults.push('- Table VPS Id is required');
 
-        if (!config.fps) validationResults.push('- FPS is required');
+        if (!config.fps) {
+            validationResults.push('- FPS is required');
+        } else if (config.fps > 60) {
+            validationResults.push('- FPS cannot be greater than 60.\nCurrently set to ' + config.fps);
+        }
         
         if (!config.tagline) validationResults.push('- Tagline is required');
         
         // Check for at least one tester
         if (!config.testers || config.testers.length === 0) {
             validationResults.push('- Testers: \nAt least one tester is required');
+        }
+
+        // Check that romUrlOverride and romVPSId are mutually exclusive
+        if (config.romUrlOverride && config.romVPSId) {
+            validationResults.push('- Cannot have both romUrlOverride and romVPSId in the YAML.\nThese fields are mutually exclusive.');
+        }
+
+        // Check that romVersionOverride exists when romUrlOverride is present
+        if (config.romUrlOverride && config.romUrlOverride.trim() !== '') {
+            if (!config.romVersionOverride || config.romVersionOverride.trim() === '') {
+                validationResults.push('- When romUrlOverride is used; romVersionOverride must be set.');
+            }
         }
 
         // Type checking for all fields
@@ -347,45 +365,20 @@ async function validateYml(ymlContent) {
             }
         }
 
-        // Check that checksum fields in YAML have non-empty values
-        const checksumFields = [
-            'backglassChecksum',
-            'backglasschecksum',
-            'BackglassChecksum',
-            'romChecksum',
-            'romchecksum',
-            'RomChecksum',
-            'ROMChecksum',
-            'Romchecksum',
-            'romChecksum',
-            'coloredROMChecksum',
-            'coloredromchecksum',
-            'ColoredROMChecksum',
-            'coloredRomChecksum',
-            'ColoredRomChecksum',
-            'coloredRomchecksum',
-            'Coloredromchecksum',
-            'vpxChecksum',
-            'vpxchecksum',
-            'VPXChecksum',
-            'VpxChecksum',
-            'Vpxchecksum',
-            'pupChecksum',
-            'pupchecksum',
-            'PUPChecksum',
-            'PupChecksum',
-            'Pupchecksum'
-        ];
+        // Check that checksum fields have valid MD5 hashes
+        const md5Regex = /^[a-f0-9]{32}$/;
+        const checksumFields = {
+            backglassChecksum: 'Backglass',
+            romChecksum: 'ROM',
+            coloredROMChecksum: 'Colored ROM',
+            vpxChecksum: 'VPX',
+            pupChecksum: 'PUP'
+        };
 
-        const yamlLines = ymlContent.split('\n');
-        for (const line of yamlLines) {
-            const trimmedLine = line.trim();
-            for (const field of checksumFields) {
-                if (trimmedLine.startsWith(field + ':')) {
-                    const value = trimmedLine.substring(field.length + 1).trim();
-                    if (value === '""' || value === "''" || value === '') {
-                        validationResults.push(`- Checksum field '${field}' is specified but empty.\nChecksum fields must have a value if specified.`);
-                    }
+        for (const [field, name] of Object.entries(checksumFields)) {
+            if (config[field] && config[field].trim() !== '') {
+                if (!md5Regex.test(config[field])) {
+                    validationResults.push(`- ${name} checksum must be a valid MD5 hash.\nCurrent value: ${config[field]}`);
                 }
             }
         }
@@ -434,10 +427,9 @@ async function validateYml(ymlContent) {
         }
 
         // Check line lengths
-        const lines = ymlContent.split('\n');
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            const previousLine = i > 0 ? lines[i - 1].trim() : '';
+        for (let i = 0; i < yamlLines.length; i++) {
+            const line = yamlLines[i];
+            const previousLine = i > 0 ? yamlLines[i - 1].trim() : '';
             const isDisabled = previousLine === '# yamllint disable-line rule:line-length';
             
             if (!isDisabled && line.length > 120) {
