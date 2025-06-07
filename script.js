@@ -228,9 +228,7 @@ async function validateYml(ymlContent) {
         // Check required fields
         if (!config.fps) {
             validationResults.push('- FPS is required');
-        } else if (typeof config.fps !== 'number' || !Number.isInteger(config.fps)) {
-            validationResults.push('- FPS must be number. \nIt shouldnt be a string or a decimal. \nCurrently \'' + config.fps + '\' is type ' + typeof config.fps);
-        }
+        } 
         if (!config.tagline) validationResults.push('- Tagline is required');
         
         // Check for at least one tester
@@ -251,6 +249,9 @@ async function validateYml(ymlContent) {
             enabled: { type: 'boolean', name: 'Enabled' },
             pupRequired: { type: 'boolean', name: 'PUP Required' },
             romBundled: { type: 'boolean', name: 'ROM Bundled' },
+
+            // Numbers
+            fps: { type: 'number', name: 'FPS' },
 
             // Strings
             backglassChecksum: { type: 'string', name: 'Backglass Checksum' },
@@ -297,11 +298,27 @@ async function validateYml(ymlContent) {
                     case 'string':
                         isValid = typeof config[field] === 'string';
                         break;
+                    case 'number':
+                        isValid = typeof config[field] === 'number' && Number.isInteger(config[field]);
+                        break;
                 }
 
                 if (!isValid) {
                     validationResults.push(`- ${check.name} must be a ${check.type}.\nCurrently '${config[field]}' is type ${typeof config[field]}`);
                 }
+            }
+        }
+
+        // Check bundled fields have notes when true
+        const bundledFields = [
+            { bundled: 'romBundled', notes: 'romNotes', name: 'ROM' },
+            { bundled: 'coloredROMBundled', notes: 'coloredROMNotes', name: 'Colored ROM' },
+            { bundled: 'backglassBundled', notes: 'backglassNotes', name: 'Backglass' }
+        ];
+
+        for (const field of bundledFields) {
+            if (config[field.bundled] === true && (!config[field.notes] || config[field.notes].trim() === '')) {
+                validationResults.push(`- ${field.name} is bundled but has no notes.\nWhen ${field.name} is bundled, notes are required.`);
             }
         }
 
