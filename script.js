@@ -178,12 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 finishedLabel.value = result.message;
             } else {
                 finishedLabel.value = result.message;
-                alert(result.message);
             }
         } catch (error) {
             console.error('Error validating YML:', error);
             finishedLabel.value = 'Error validating YML. Please try again.';
-            alert('Error validating YML. Please try again.');
         }
     });
 });
@@ -224,14 +222,6 @@ async function validateYml(ymlContent) {
     try {
         const config = new WizardYml(YAML.parse(ymlContent));
         
-        // Basic validation
-        if (!config.enabled) {
-            return {
-                success: false,
-                message: 'YML validation failed: Table is not enabled'
-            };
-        }
-
         // Add more validation rules as needed
         const validationResults = [];
         
