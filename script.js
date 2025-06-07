@@ -338,6 +338,15 @@ async function validateYml(ymlContent) {
             }
         }
 
+        // Check for valid fixes
+        const validFixes = ['bass'];
+        if (config.applyFixes && Array.isArray(config.applyFixes)) {
+            const invalidFixes = config.applyFixes.filter(fix => !validFixes.includes(fix));
+            if (invalidFixes.length > 0) {
+                validationResults.push(`- Invalid fixes found in applyFixes: ${invalidFixes.join(', ')}.\nValid fixes are: ${validFixes.join(', ')}`);
+            }
+        }
+
         // Check that checksum fields in YAML have non-empty values
         const checksumFields = [
             'backglassChecksum',
