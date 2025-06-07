@@ -349,24 +349,29 @@ async function validateYml(ymlContent) {
         } catch (error) {
             validationResults.push(`- Table VPS ID '${config.tableVPSId}' not found in VPS database.`);
         }
-        
-        for (const vpsId of vpsIdsToCheck) {
-            if (vpsId.id) {
-                // Check if the ID exists in the appropriate files array
-                let found = false;
-                for (const token of ['table', 'b2s', 'rom', 'pupPack', 'altColor']) {
-                    const fileArray = table[`${token}Files`];
-                    if (fileArray) {
-                        for (const fle of fileArray) {
-                            if (fle.id === vpsId.id) {
-                                found = true;
-                                break;
+
+        if(table == null){
+            validationResults.push(`- Table VPS ID '${config.tableVPSId}' not found in VPS database.`);
+        }
+        else {
+            for (const vpsId of vpsIdsToCheck) {
+                if (vpsId.id) {
+                    // Check if the ID exists in the appropriate files array
+                    let found = false;
+                    for (const token of ['table', 'b2s', 'rom', 'pupPack', 'altColor']) {
+                        const fileArray = table[`${token}Files`];
+                        if (fileArray) {
+                            for (const fle of fileArray) {
+                                if (fle.id === vpsId.id) {
+                                    found = true;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-                if (!found) {
-                    validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found on table '${config.tableVPSId}'`);
+                    if (!found) {
+                        validationResults.push(`- ${vpsId.name} VPS ID '${vpsId.id}' not found on table '${config.tableVPSId}'`);
+                    }
                 }
             }
         }
