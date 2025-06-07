@@ -342,11 +342,14 @@ async function validateYml(ymlContent) {
             { id: config.coloredROMVPSId, name: 'Colored ROM' }
         ];
 
-        const table = await vpsService.getTable(config.tableVPSId);
-        if (!table) {
+        let table = null;
+        try {
+            table = await vpsService.getTable(config.tableVPSId);
+        
+        } catch (error) {
             validationResults.push(`- Table VPS ID '${config.tableVPSId}' not found in VPS database.`);
         }
-
+        
         for (const vpsId of vpsIdsToCheck) {
             if (vpsId.id) {
                 // Check if the ID exists in the appropriate files array
