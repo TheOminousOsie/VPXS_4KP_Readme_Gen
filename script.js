@@ -178,10 +178,19 @@ document.addEventListener('DOMContentLoaded', () => {
             finishedLabel.style.height = '500px';
             const result = await validateYml(currentYmlContent);
             finishedLabel.value = result.message;
+            
+            if (!result.success) {
+                // Clear the file input and current content
+                fileInput.value = '';
+                currentYmlContent = null;
+            }
         } catch (error) {
             console.error('Error validating YML:', error);
             finishedLabel.value = 'Error validating YML. Please try again.';
             alert('Error validating YML. Please try again.');
+            // Clear the file input and current content on error
+            fileInput.value = '';
+            currentYmlContent = null;
         }
     });
 });
