@@ -241,7 +241,7 @@ async function validateYml(ymlContent) {
         if (validationResults.length > 0) {
             return {
                 success: false,
-                message: 'YML validation failed:\n' + validationResults.join('\n - ')
+                message: 'YML validation failed:\n\n' + validationResults.join('\n\n - ')
             };
         }
 
