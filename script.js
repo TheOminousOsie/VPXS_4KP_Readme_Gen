@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            finishedLabel.style.height = '';
             const readmeService = new ReadmeService();
             const result = await readmeService.generateWizardReadme(currentYmlContent, includePreviewCheckbox.checked);
             
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            finishedLabel.style.height = '';
             const readmeService = new ReadmeService();
             const result = await readmeService.generateManualReadme(currentYmlContent, includePreviewCheckbox.checked);
             
@@ -173,15 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            finishedLabel.style.height = '500px';
             const result = await validateYml(currentYmlContent);
-            if (result.success) {
-                finishedLabel.value = result.message;
-            } else {
-                finishedLabel.value = result.message;
-            }
+            finishedLabel.value = result.message;
         } catch (error) {
             console.error('Error validating YML:', error);
             finishedLabel.value = 'Error validating YML. Please try again.';
+            alert('Error validating YML. Please try again.');
         }
     });
 });
@@ -227,21 +227,88 @@ async function validateYml(ymlContent) {
         
         // Check required fields
         if (!config.fps) {
-            validationResults.push('FPS is required');
+            validationResults.push('- FPS is required');
         } else if (typeof config.fps !== 'number' || !Number.isInteger(config.fps)) {
-            validationResults.push('FPS must be number. \nIt shouldnt be a string or a decimal. \nCurrently \'' + config.fps + '\' is type ' + typeof config.fps);
+            validationResults.push('- FPS must be number. \nIt shouldnt be a string or a decimal. \nCurrently \'' + config.fps + '\' is type ' + typeof config.fps);
         }
-        if (!config.tagline) validationResults.push('Tagline is required');
+        if (!config.tagline) validationResults.push('- Tagline is required');
         
         // Check for at least one tester
         if (!config.testers || config.testers.length === 0) {
-            validationResults.push('At least one tester is required');
+            validationResults.push('- Testers: \nAt least one tester is required');
+        }
+
+        // Type checking for all fields
+        const typeChecks = {
+            // Arrays
+            applyFixes: { type: 'array', name: 'Apply Fixes' },
+            backglassAuthorsOverride: { type: 'array', name: 'Backglass Authors Override' },
+            testers: { type: 'array', name: 'Testers' },
+
+            // Booleans
+            backglassBundled: { type: 'boolean', name: 'Backglass Bundled' },
+            coloredROMBundled: { type: 'boolean', name: 'Colored ROM Bundled' },
+            enabled: { type: 'boolean', name: 'Enabled' },
+            pupRequired: { type: 'boolean', name: 'PUP Required' },
+            romBundled: { type: 'boolean', name: 'ROM Bundled' },
+
+            // Strings
+            backglassChecksum: { type: 'string', name: 'Backglass Checksum' },
+            backglassImageOverride: { type: 'string', name: 'Backglass Image Override' },
+            backglassNotes: { type: 'string', name: 'Backglass Notes' },
+            backglassUrlOverride: { type: 'string', name: 'Backglass URL Override' },
+            backglassVPSId: { type: 'string', name: 'Backglass VPS ID' },
+            coloredROMChecksum: { type: 'string', name: 'Colored ROM Checksum' },
+            coloredROMNotes: { type: 'string', name: 'Colored ROM Notes' },
+            coloredROMUrlOverride: { type: 'string', name: 'Colored ROM URL Override' },
+            coloredROMVersionOverride: { type: 'string', name: 'Colored ROM Version Override' },
+            coloredROMVPSId: { type: 'string', name: 'Colored ROM VPS ID' },
+            mainNotes: { type: 'string', name: 'Main Notes' },
+            pupArchiveFormat: { type: 'string', name: 'PUP Archive Format' },
+            pupArchiveRoot: { type: 'string', name: 'PUP Archive Root' },
+            pupChecksum: { type: 'string', name: 'PUP Checksum' },
+            pupFileUrl: { type: 'string', name: 'PUP File URL' },
+            pupNotes: { type: 'string', name: 'PUP Notes' },
+            pupVersion: { type: 'string', name: 'PUP Version' },
+            romChecksum: { type: 'string', name: 'ROM Checksum' },
+            romNotes: { type: 'string', name: 'ROM Notes' },
+            romUrlOverride: { type: 'string', name: 'ROM URL Override' },
+            romVersionOverride: { type: 'string', name: 'ROM Version Override' },
+            romVPSId: { type: 'string', name: 'ROM VPS ID' },
+            tableNameOverride: { type: 'string', name: 'Table Name Override' },
+            tableNotes: { type: 'string', name: 'Table Notes' },
+            tableVPSId: { type: 'string', name: 'Table VPS ID' },
+            tagline: { type: 'string', name: 'Tagline' },
+            vpxChecksum: { type: 'string', name: 'VPX Checksum' },
+            vpxVPSId: { type: 'string', name: 'VPX VPS ID' }
+        };
+
+        // Check each field's type
+        for (const [field, check] of Object.entries(typeChecks)) {
+            if (config[field] !== undefined) {
+                let isValid = false;
+                switch (check.type) {
+                    case 'array':
+                        isValid = Array.isArray(config[field]);
+                        break;
+                    case 'boolean':
+                        isValid = typeof config[field] === 'boolean';
+                        break;
+                    case 'string':
+                        isValid = typeof config[field] === 'string';
+                        break;
+                }
+
+                if (!isValid) {
+                    validationResults.push(`- ${check.name} must be a ${check.type}.\nCurrently '${config[field]}' is type ${typeof config[field]}`);
+                }
+            }
         }
 
         if (validationResults.length > 0) {
             return {
                 success: false,
-                message: 'YML validation failed:\n\n' + validationResults.join('\n\n - ')
+                message: 'YML validation failed:\n\n' + validationResults.join('\n\n')
             };
         }
 
