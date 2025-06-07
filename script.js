@@ -322,14 +322,62 @@ async function validateYml(ymlContent) {
 
         // Check bundled fields have notes when true
         const bundledFields = [
-            { bundled: 'romBundled', notes: 'romNotes', name: 'ROM' },
-            { bundled: 'coloredROMBundled', notes: 'coloredROMNotes', name: 'Colored ROM' },
-            { bundled: 'backglassBundled', notes: 'backglassNotes', name: 'Backglass' }
+            { bundled: 'romBundled', notes: 'romNotes', checksum: 'romChecksum', name: 'ROM' },
+            { bundled: 'coloredROMBundled', notes: 'coloredROMNotes', checksum: 'coloredROMChecksum', name: 'Colored ROM' },
+            { bundled: 'backglassBundled', notes: 'backglassNotes', checksum: 'backglassChecksum', name: 'Backglass' }
         ];
 
         for (const field of bundledFields) {
-            if (config[field.bundled] === true && (!config[field.notes] || config[field.notes].trim() === '')) {
-                validationResults.push(`- ${field.name} is bundled but has no notes.\nWhen ${field.name} is bundled, notes are required.`);
+            if (config[field.bundled] === true) {
+                if (!config[field.notes] || config[field.notes].trim() === '') {
+                    validationResults.push(`- ${field.name} is bundled but has no notes.\nWhen ${field.name} is bundled, notes are required.`);
+                }
+                if (!config[field.checksum] || config[field.checksum].trim() === '') {
+                    validationResults.push(`- ${field.name} is bundled but has no checksum.\nWhen ${field.name} is bundled, a checksum is required.`);
+                }
+            }
+        }
+
+        // Check that checksum fields in YAML have non-empty values
+        const checksumFields = [
+            'backglassChecksum',
+            'backglasschecksum',
+            'BackglassChecksum',
+            'romChecksum',
+            'romchecksum',
+            'RomChecksum',
+            'ROMChecksum',
+            'Romchecksum',
+            'romChecksum',
+            'coloredROMChecksum',
+            'coloredromchecksum',
+            'ColoredROMChecksum',
+            'coloredRomChecksum',
+            'ColoredRomChecksum',
+            'coloredRomchecksum',
+            'Coloredromchecksum',
+            'vpxChecksum',
+            'vpxchecksum',
+            'VPXChecksum',
+            'VpxChecksum',
+            'Vpxchecksum',
+            'pupChecksum',
+            'pupchecksum',
+            'PUPChecksum',
+            'PupChecksum',
+            'Pupchecksum'
+        ];
+
+        const yamlLines = ymlContent.split('\n');
+        for (const line of yamlLines) {
+            const trimmedLine = line.trim();
+            for (const field of checksumFields) {
+                if (trimmedLine.startsWith(field + ':')) {
+                    const value = trimmedLine.substring(field.length + 1).trim();
+                    if (value === '""' || value === "''" || value === '') {
+                        validationResults.push(`- Checksum field '${field}' is specified but empty.\nChecksum fields must have a value if specified.`);
+                    }
+                }
             }
         }
 
